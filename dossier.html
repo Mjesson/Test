@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Mon dossier – Portail Axiora</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/src/css/main.css">
+  <script type="module">
+    import { api, session } from '/src/js/api.js';
+    try { await api.get('/moi'); } catch { session.clear(); location.replace('/'); }
+  </script>
+</head>
+<body>
+  <main class="mx-auto max-w-6xl px-4 py-10">
+    <h1>Mon dossier</h1>
+    <p class="mt-3 text-discret">Page à venir (étape suivante).</p>
+  </main>
+</body>
+</html>

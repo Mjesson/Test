@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Connexion – Portail Axiora</title>
+  <meta name="description" content="Accédez à votre espace de suivi de dossier.">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/src/css/main.css">
+  <script type="module" src="/src/js/pages/connexion.js"></script>
+</head>
+<body class="flex min-h-screen flex-col">
+  <a class="lien-evitement" href="#contenu">Aller au contenu</a>
+
+  <header class="border-b-2 border-bordure bg-surface">
+    <div class="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3">
+      <a href="/" class="flex items-center gap-2 font-bold text-marque" aria-label="Axiora – accueil">
+        <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="8" fill="currentColor"/><path d="M16 7l7 18h-3.4l-1.3-3.6h-4.6L12.4 25H9l7-18zm0 6.2l-1.5 4.2h3L16 13.2z" fill="var(--c-marque-texte)"/></svg>
+        <span class="text-xl">Axiora</span>
+      </a>
+    </div>
+  </header>
+
+  <main id="contenu" class="mx-auto w-full max-w-6xl flex-1 px-4 py-10" tabindex="-1">
+    <h1 id="titre-page">Votre espace de suivi de dossier</h1>
+    <p class="mt-3 max-w-prose text-discret">Déposez vos documents, complétez vos formulaires et suivez l’avancement de votre dossier en toute autonomie.</p>
+    <noscript><p class="alerte-erreur mt-4">JavaScript est nécessaire pour vous connecter à cet espace.</p></noscript>
+  </main>
+
+  <footer class="border-t-2 border-bordure bg-surface">
+    <nav aria-label="Informations légales" class="mx-auto flex max-w-6xl flex-wrap gap-x-6 gap-y-1 px-4 py-4 text-sm">
+      <a class="underline" href="#">Accessibilité : non conforme</a>
+      <a class="underline" href="#">Mentions légales</a>
+      <a class="underline" href="#">Données personnelles</a>
+    </nav>
+  </footer>
+
+  <dialog id="modale" aria-labelledby="modale-titre" class="m-auto w-[min(32rem,calc(100%-2rem))] rounded-lg border-2 border-bordure bg-surface p-0 text-texte">
+    <div class="p-6">
+      <p class="font-semibold text-marque">Axiora</p>
+      <h2 id="modale-titre" tabindex="-1" class="mt-1">Chargement…</h2>
+      <p id="modale-statut" role="status" class="sr-only"></p>
+      <div id="modale-corps" class="mt-4"></div>
+    </div>
+  </dialog>
+
+  <!-- Gabarits des étapes (clonés par le script) -->
+  <template id="t-chargement">
+    <p>Vérification de votre lien en cours…</p>
+  </template>
+
+  <template id="t-verification">
+    <form novalidate data-formulaire="verification">
+      <div data-erreurs hidden class="alerte-erreur mb-4" role="alert" tabindex="-1"></div>
+      <p id="aide-lettres">Pour sécuriser votre accès, saisissez <strong>les 3 premières lettres de votre prénom</strong>.</p>
+      <div class="mt-4">
+        <label for="lettres" class="font-semibold">3 premières lettres de votre prénom</label>
+        <input class="champ" id="lettres" name="lettres" type="text" maxlength="3" autocomplete="off" autocapitalize="off" spellcheck="false" required aria-describedby="aide-lettres erreur-lettres essais">
+        <p id="erreur-lettres" class="msg-erreur" hidden></p>
+      </div>
+      <p id="essais" class="mt-3 text-discret"></p>
+      <div class="mt-6"><button class="btn btn-primaire w-full" type="submit">Continuer</button></div>
+      <p class="mt-4 text-sm text-discret">Lien expiré ou bloqué ? Demandez-en un nouveau à votre interlocuteur commercial.</p>
+    </form>
+  </template>
+
+  <template id="t-motdepasse">
+    <form novalidate data-formulaire="motdepasse">
+      <div data-erreurs hidden class="alerte-erreur mb-4" role="alert" tabindex="-1"></div>
+      <p id="aide-mdp">Choisissez un mot de passe pour vos prochaines connexions.</p>
+      <ul class="mt-2 list-disc pl-6 text-sm text-discret" id="regles-mdp">
+        <li>12 caractères minimum</li>
+        <li>Les deux saisies doivent être identiques</li>
+      </ul>
+      <div class="mt-4">
+        <label for="mdp" class="font-semibold">Mot de passe</label>
+        <input class="champ" id="mdp" name="mdp" type="password" autocomplete="new-password" required aria-describedby="aide-mdp erreur-mdp">
+        <p id="erreur-mdp" class="msg-erreur" hidden></p>
+      </div>
+      <div class="mt-4">
+        <label for="mdp2" class="font-semibold">Confirmer le mot de passe</label>
+        <input class="champ" id="mdp2" name="mdp2" type="password" autocomplete="new-password" required aria-describedby="erreur-mdp2">
+        <p id="erreur-mdp2" class="msg-erreur" hidden></p>
+      </div>
+      <div class="mt-3 flex items-center gap-2">
+        <input id="afficher" type="checkbox" class="size-6 accent-[var(--c-marque)]" data-afficher>
+        <label for="afficher">Afficher les mots de passe</label>
+      </div>
+      <div class="mt-6"><button class="btn btn-primaire w-full" type="submit">Enregistrer et accéder à mon dossier</button></div>
+    </form>
+  </template>
+
+  <template id="t-connexion">
+    <form novalidate data-formulaire="connexion">
+      <div data-erreurs hidden class="alerte-erreur mb-4" role="alert" tabindex="-1"></div>
+      <div>
+        <label for="email" class="font-semibold">Adresse e-mail</label>
+        <input class="champ" id="email" name="email" type="email" autocomplete="username" required aria-describedby="erreur-email">
+        <p id="erreur-email" class="msg-erreur" hidden></p>
+      </div>
+      <div class="mt-4">
+        <label for="mdp" class="font-semibold">Mot de passe</label>
+        <input class="champ" id="mdp" name="mdp" type="password" autocomplete="current-password" required aria-describedby="erreur-mdp">
+        <p id="erreur-mdp" class="msg-erreur" hidden></p>
+      </div>
+      <div class="mt-3 flex items-center gap-2">
+        <input id="afficher" type="checkbox" class="size-6 accent-[var(--c-marque)]" data-afficher>
+        <label for="afficher">Afficher le mot de passe</label>
+      </div>
+      <div class="mt-6"><button class="btn btn-primaire w-full" type="submit">Me connecter</button></div>
+      <p class="mt-4 text-sm text-discret">Premier accès ? Utilisez le lien reçu par e-mail de votre interlocuteur commercial.</p>
+    </form>
+  </template>
+
+  <template id="t-indisponible">
+    <div>
+      <p data-message></p>
+      <p class="mt-3 text-discret">Demandez un nouveau lien à votre interlocuteur commercial<span data-ic></span>.</p>
+    </div>
+  </template>
+</body>
+</html>

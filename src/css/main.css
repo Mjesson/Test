@@ -1,0 +1,81 @@
+@import 'tailwindcss';
+
+/* Jetons de design : contrastes vérifiés ≥ 4,5:1 (texte) et ≥ 3:1 (composants). */
+:root {
+  --c-fond: #f6f7fb;
+  --c-surface: #ffffff;
+  --c-texte: #14213d;
+  --c-discret: #4a5568;
+  --c-bordure: #7a869a;
+  --c-marque: #1e3a8a;
+  --c-marque-texte: #ffffff;
+  --c-marque-fort: #172f6f;
+  --c-erreur: #a31621;
+  --c-erreur-fond: #fdecee;
+  --c-succes: #17623a;
+  --c-focus: #b45309;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --c-fond: #0e1526;
+    --c-surface: #172036;
+    --c-texte: #eef1f8;
+    --c-discret: #b6c0d4;
+    --c-bordure: #8d9ab3;
+    --c-marque: #a9c1ff;
+    --c-marque-texte: #0e1526;
+    --c-marque-fort: #c6d6ff;
+    --c-erreur: #ffb4bb;
+    --c-erreur-fond: #3b1a20;
+    --c-succes: #7be0a8;
+    --c-focus: #ffc857;
+  }
+}
+
+@theme inline {
+  --color-fond: var(--c-fond);
+  --color-surface: var(--c-surface);
+  --color-texte: var(--c-texte);
+  --color-discret: var(--c-discret);
+  --color-bordure: var(--c-bordure);
+  --color-marque: var(--c-marque);
+  --color-marque-texte: var(--c-marque-texte);
+  --color-marque-fort: var(--c-marque-fort);
+  --color-erreur: var(--c-erreur);
+  --color-erreur-fond: var(--c-erreur-fond);
+  --color-succes: var(--c-succes);
+  --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+@layer base {
+  html { font-size: 100%; }
+  body { @apply bg-fond text-texte font-sans leading-relaxed; }
+  :focus-visible { outline: 3px solid var(--c-focus); outline-offset: 2px; }
+  h1 { @apply text-2xl font-bold; }
+  h2 { @apply text-xl font-semibold; }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex min-h-11 items-center justify-center rounded-md border-2 border-marque px-5 py-2 font-semibold;
+  }
+  .btn-primaire { @apply bg-marque text-marque-texte hover:bg-marque-fort hover:border-marque-fort; }
+  .btn-secondaire { @apply bg-surface text-marque hover:bg-fond; }
+  .btn:disabled { @apply cursor-not-allowed opacity-60; }
+  .champ {
+    @apply mt-1 block min-h-11 w-full rounded-md border-2 border-bordure bg-surface px-3 py-2 text-texte;
+  }
+  .champ[aria-invalid='true'] { @apply border-erreur; }
+  .msg-erreur { @apply mt-1 flex gap-1 font-semibold text-erreur; }
+  .alerte-erreur { @apply rounded-md border-2 border-erreur bg-erreur-fond p-3 text-erreur; }
+  .lien-evitement {
+    @apply absolute left-2 top-2 z-50 -translate-y-20 rounded-md bg-marque px-4 py-2 text-marque-texte focus:translate-y-0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
+
+dialog::backdrop { background: rgb(14 21 38 / 0.7); }
