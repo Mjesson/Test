@@ -6,7 +6,10 @@ import { resolve } from 'node:path';
 const racine = import.meta.dirname;
 
 // Application multi-pages : une entrée HTML par écran.
-const pages = ['index', 'dossier', 'formulaires', 'messagerie'];
+const pages = [
+  'index', 'dossier', 'formulaires', 'formulaire-pays', 'messagerie', 'portefeuille', 'portefeuille-dossier',
+  'accessibilite', 'mentions-legales', 'donnees-personnelles', 'ecoconception',
+];
 
 // Inclusion de gabarits HTML au build : <!--@include header.html current=dossier -->
 // Le HTML livré reste statique (aucun JS pour assembler la page).

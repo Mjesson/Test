@@ -8,9 +8,10 @@
   </div>
   <nav aria-label="Navigation principale" class="border-t border-trait">
     <ul class="mx-auto flex max-w-6xl flex-wrap px-2">
-      <li><a class="nav-lien" href="/dossier.html" {{cur:dossier}}>Mon dossier</a></li>
-      <li><a class="nav-lien" href="/formulaires.html" {{cur:formulaires}}>Formulaires</a></li>
-      <li><a class="nav-lien" href="/messagerie.html" {{cur:messagerie}}>Messagerie</a></li>
+      <li data-profil="prospect"><a class="nav-lien" href="/dossier.html" {{cur:dossier}}>Mon dossier</a></li>
+      <li data-profil="prospect"><a class="nav-lien" href="/formulaires.html" {{cur:formulaires}}>Formulaires</a></li>
+      <li data-profil="prospect"><a class="nav-lien" href="/messagerie.html" {{cur:messagerie}}>Messagerie</a></li>
+      <li data-profil="apporteur" hidden><a class="nav-lien" href="/portefeuille.html" {{cur:portefeuille}}>Portefeuille</a></li>
     </ul>
   </nav>
 </header>

@@ -1,3 +1,3 @@
 import { initialiserCoque } from '../coque.js';
 
-initialiserCoque();
+initialiserCoque('prospect');

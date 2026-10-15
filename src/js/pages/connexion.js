@@ -5,7 +5,7 @@ const titre = document.getElementById('modale-titre');
 const corps = document.getElementById('modale-corps');
 const statut = document.getElementById('modale-statut');
 const jetonLien = new URLSearchParams(location.search).get('token');
-const SUITE = '/dossier.html';
+const suite = (profil) => (profil === 'apporteur' ? '/portefeuille.html' : '/dossier.html');
 
 // La modale est obligatoire pour accéder à l'espace : Échap ne la ferme pas.
 modale.addEventListener('cancel', (e) => e.preventDefault());
@@ -142,9 +142,9 @@ function etapeMotDePasse(lettres) {
     const bouton = form.querySelector('button');
     enAttente(bouton, true);
     try {
-      const { jeton } = await api.post(`/invitations/${jetonLien}/mot-de-passe`, { lettres, motDePasse: mdp.value });
+      const { jeton, profil } = await api.post(`/invitations/${jetonLien}/mot-de-passe`, { lettres, motDePasse: mdp.value });
       session.set(jeton);
-      location.assign(SUITE);
+      location.assign(suite(profil));
     } catch (err) {
       enAttente(bouton, false);
       resumeErreurs([{ texte: err.message }]);
@@ -170,9 +170,9 @@ function etapeConnexion() {
     const bouton = form.querySelector('button');
     enAttente(bouton, true);
     try {
-      const { jeton } = await api.post('/connexion', { email: email.value, motDePasse: mdp.value });
+      const { jeton, profil } = await api.post('/connexion', { email: email.value, motDePasse: mdp.value });
       session.set(jeton);
-      location.assign(SUITE);
+      location.assign(suite(profil));
     } catch (err) {
       enAttente(bouton, false);
       resumeErreurs([{ texte: err.message }]);
@@ -182,7 +182,7 @@ function etapeConnexion() {
 
 async function demarrer() {
   if (session.get()) {
-    try { await api.get('/moi'); location.replace(SUITE); return; } catch { session.clear(); }
+    try { const moi = await api.get('/moi'); location.replace(suite(moi.profil)); return; } catch { session.clear(); }
   }
   modale.showModal();
   if (!jetonLien) return etapeConnexion();

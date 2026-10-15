@@ -39,6 +39,7 @@ async function appel(methode, chemin, corps) {
 export const api = {
   get: (c) => appel('GET', c),
   post: (c, corps) => appel('POST', c, corps ?? {}),
+  put: (c, corps) => appel('PUT', c, corps ?? {}),
 };
 
 // Envoi de fichier avec progression (fetch n'expose pas la progression d'envoi).

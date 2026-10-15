@@ -1,61 +1,18 @@
 import { api, ApiError, envoyerFichier } from '../api.js';
 import { initialiserCoque } from '../coque.js';
 import { h, annoncer, dateLongue, dateHeure, taille } from '../ui.js';
+import { STATUTS, badge as badgeDef, rendreFrise as frise } from '../composants.js';
 
 const TAILLE_MAX = 20 * 1024 * 1024;
 const TYPES = ['application/pdf', 'image/jpeg'];
 const $ = (id) => document.getElementById(id);
-
-// Statuts : texte + icône (jamais la couleur seule).
-const STATUTS = {
-  a_fournir: { libelle: 'À fournir', action: 'Déposer', classe: 'border-bordure bg-surface text-texte', icone: 'M12 5v14M5 12h14' },
-  recu: { libelle: 'Reçu', action: 'Voir', classe: 'border-bordure bg-fond text-texte', icone: 'M5 13l4 4L19 7' },
-  en_controle: { libelle: 'En contrôle', action: 'Voir', classe: 'border-bordure bg-fond text-texte', icone: 'M12 7v5l3 2M12 3a9 9 0 100 18 9 9 0 000-18z' },
-  a_corriger: { libelle: 'À corriger', action: 'Remplacer', classe: 'border-erreur bg-erreur-fond text-erreur', icone: 'M12 8v5m0 3v.01M12 3l10 18H2L12 3z' },
-  valide: { libelle: 'Validé', action: 'Voir', classe: 'border-succes bg-surface text-succes', icone: 'M5 13l4 4L19 7' },
-};
-
-const icone = (d) => {
-  const ns = 'http://www.w3.org/2000/svg';
-  const svg = document.createElementNS(ns, 'svg');
-  svg.setAttribute('viewBox', '0 0 24 24');
-  svg.setAttribute('class', 'size-4 shrink-0');
-  svg.setAttribute('fill', 'none');
-  svg.setAttribute('stroke', 'currentColor');
-  svg.setAttribute('stroke-width', '2.5');
-  svg.setAttribute('stroke-linecap', 'round');
-  svg.setAttribute('stroke-linejoin', 'round');
-  svg.setAttribute('aria-hidden', 'true');
-  svg.setAttribute('focusable', 'false');
-  const path = document.createElementNS(ns, 'path');
-  path.setAttribute('d', d);
-  svg.append(path);
-  return svg;
-};
 
 let dossier = null;
 let cible = null; // document visé par « Déposer » / « Remplacer »
 
 /* ---------- Rendu ---------- */
 
-function rendreFrise() {
-  $('frise').replaceChildren(...dossier.etapes.map((nom, i) => {
-    const n = i + 1;
-    const etat = n < dossier.etape ? 'terminée' : n === dossier.etape ? 'en cours' : 'à venir';
-    const fait = n < dossier.etape;
-    const courant = n === dossier.etape;
-    return h('li', { class: 'flex items-start gap-3 sm:flex-col sm:gap-2', 'aria-current': courant ? 'step' : false },
-      h('span', {
-        class: `flex size-9 shrink-0 items-center justify-center rounded-full border-2 font-semibold ${
-          fait ? 'border-marque bg-marque text-marque-texte' : courant ? 'border-marque bg-surface text-texte ring-2 ring-marque ring-offset-2' : 'border-bordure bg-surface text-discret'}`,
-        'aria-hidden': 'true',
-      }, fait ? icone('M5 13l4 4L19 7') : String(n)),
-      h('span', {},
-        h('span', { class: 'block text-sm text-discret' }, `Étape ${n} sur ${dossier.etapes.length}`),
-        h('span', { class: courant ? 'block font-semibold' : 'block' }, nom),
-        h('span', { class: 'block text-sm text-discret' }, etat)));
-  }));
-}
+const rendreFrise = () => frise($('frise'), dossier.etapes, dossier.etape);
 
 function rendreInfos() {
   const d = dossier;
@@ -67,10 +24,7 @@ function rendreInfos() {
     h('div', {}, h('dt', { class: 'text-sm text-discret' }, t), h('dd', { class: 'font-medium' }, v))));
 }
 
-function badge(statut) {
-  const s = STATUTS[statut];
-  return h('span', { class: `inline-flex items-center gap-1.5 rounded-sm border px-2 py-0.5 text-sm font-semibold ${s.classe}` }, icone(s.icone), s.libelle);
-}
+const badge = (statut) => badgeDef(STATUTS[statut]);
 
 function rendreDocuments() {
   $('documents').replaceChildren(...dossier.documents.map((doc) => {
@@ -265,5 +219,5 @@ $('form-confirmation').addEventListener('submit', async (e) => {
 $('btn-quitter').addEventListener('click', () => document.querySelector('[data-deconnexion]').click());
 $('reessayer').addEventListener('click', () => charger());
 
-await initialiserCoque();
+await initialiserCoque('prospect');
 await charger();

@@ -37,7 +37,10 @@
   html { font-size: 100%; }
   body { @apply bg-fond text-texte font-sans leading-relaxed; }
   :focus-visible { outline: 3px solid var(--c-focus); outline-offset: 2px; box-shadow: 0 0 0 2px #fff; }
-  progress { accent-color: var(--c-marque); }
+  progress { appearance: none; border: 1px solid var(--c-bordure); border-radius: 2px; background: var(--c-surface); overflow: hidden; }
+  progress::-webkit-progress-bar { background: var(--c-surface); }
+  progress::-webkit-progress-value { background: var(--c-marque); }
+  progress::-moz-progress-bar { background: var(--c-marque); }
   [tabindex="-1"]:focus { outline: none; box-shadow: none; }
   h1 { @apply text-2xl font-semibold tracking-tight; }
   h2 { @apply text-xl font-semibold; }
@@ -60,6 +63,7 @@
     @apply block border-b-4 border-transparent px-3 py-3 text-discret hover:text-texte;
   }
   .nav-lien[aria-current='page'] { @apply border-marque font-semibold text-texte; }
+  .alerte-attention { @apply rounded-sm border-2 border-texte bg-fond p-3; }
   .carte { @apply rounded-sm border border-trait bg-surface p-5; }
   .lien-evitement {
     @apply absolute left-2 top-2 z-50 -translate-y-20 rounded-sm bg-marque px-4 py-2 text-marque-texte focus:translate-y-0;

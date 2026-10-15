@@ -7,15 +7,23 @@
   <title>Formulaires – Portail EGA</title>
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="/src/css/main.css">
-  <script type="module" src="/src/js/pages/simple.js"></script>
+  <script type="module" src="/src/js/pages/formulaires.js"></script>
 </head>
 <body class="flex min-h-screen flex-col">
   <a class="lien-evitement" href="#contenu">Aller au contenu</a>
   <!--@include header.html current=formulaires -->
+
   <main id="contenu" class="mx-auto w-full max-w-6xl flex-1 px-4 py-8" tabindex="-1">
     <h1>Formulaires</h1>
-    <p class="mt-3 text-discret">Cette page sera construite à une étape suivante.</p>
+    <p class="mt-2 max-w-prose text-discret">Complétez vos questionnaires. Vous pouvez enregistrer un brouillon et le reprendre à tout moment.</p>
+    <div id="etat" role="status" class="mt-6"><p>Chargement des formulaires…</p></div>
+    <div id="erreur" hidden class="alerte-erreur mt-6" tabindex="-1">
+      <p></p>
+      <button class="btn btn-secondaire mt-3" type="button" id="reessayer">Réessayer</button>
+    </div>
+    <ul id="liste" class="mt-6 grid gap-4 md:grid-cols-2" aria-label="Liste des formulaires"></ul>
   </main>
+
   <!--@include footer.html -->
 </body>
 </html>
