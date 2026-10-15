@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Déclaration d’écoconception – Portail EGA</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/src/css/main.css">
+</head>
+<body class="flex min-h-screen flex-col">
+  <a class="lien-evitement" href="#contenu">Aller au contenu</a>
+  <!--@include header-public.html -->
+
+  <main id="contenu" class="mx-auto w-full max-w-3xl flex-1 px-4 py-8" tabindex="-1">
+    <h1>Déclaration d’écoconception</h1>
+    <p class="mt-3 rounded-sm border border-bordure bg-surface p-3 text-sm">Modèle de démonstration : ce texte doit être complété et validé par les équipes juridique et conformité avant toute mise en production.</p>
+    <section class="mt-8">
+      <h2>Démarche</h2>
+      <p class="mt-2">Ce portail est conçu selon les principes du Référentiel général d’écoconception de services numériques (RGESN) : faire simple, charger peu, calculer peu.</p>
+    </section>
+    <section class="mt-8">
+      <h2>Mesures mises en œuvre</h2>
+      <ul class="mt-2 list-disc pl-6">
+        <li>Aucun framework JavaScript : HTML sémantique et quelques kilo-octets de JavaScript par page.</li>
+        <li>Aucune bibliothèque, police, image ou script externe : polices système, icônes SVG intégrées, CSS Tailwind purgé.</li>
+        <li>Pas d’animation, de lecture automatique ni de vidéo.</li>
+        <li>Listes paginées et filtrées côté interface ; pas d’interrogation répétée du serveur (aucun polling).</li>
+        <li>Envoi de fichiers limité aux formats PDF et JPG, 20 Mo maximum, vérifié avant envoi.</li>
+        <li>Budget par page : moins de 100 Ko transférés (voir <code>npm run budget</code>).</li>
+      </ul>
+    </section>
+    <section class="mt-8">
+      <h2>Limites connues</h2>
+      <p class="mt-2">Les documents sont envoyés tels quels : aucune compression côté navigateur n’est effectuée. Le dimensionnement de l’hébergement et la mesure d’impact en production restent à réaliser.</p>
+    </section>
+
+    <p class="mt-8"><a class="underline" href="/">Retour à l’accueil</a></p>
+  </main>
+
+  <!--@include footer.html -->
+</body>
+</html>

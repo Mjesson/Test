@@ -1,0 +1,25 @@
+import { ouvrir, audit, largeur, base, cap } from './lib.mjs';
+
+const { b, p } = await ouvrir();
+await p.setViewportSize({ width: 390, height: 800 });
+await p.goto(`${base}/?token=demo`);
+await p.waitForSelector('#lettres');
+await audit(p, 'vérification'); await cap(p, 'apercu-connexion-mobile.png');
+await p.fill('#lettres', 'xyz'); await p.click('button[type=submit]');
+await p.waitForSelector('[data-erreurs]:not([hidden])');
+console.log('essais:', await p.textContent('#essais'));
+await p.fill('#lettres', 'CAM'); await p.click('button[type=submit]');
+await p.waitForSelector('#mdp'); await audit(p, 'mot de passe');
+await p.fill('#mdp', 'court'); await p.fill('#mdp2', 'autre'); await p.click('button[type=submit]');
+console.log('erreurs mdp:', (await p.textContent('[data-erreurs]')).trim());
+await p.fill('#mdp', 'motdepasse-solide'); await p.fill('#mdp2', 'motdepasse-solide'); await p.click('button[type=submit]');
+await p.waitForURL('**/dossier.html');
+await p.evaluate(() => sessionStorage.clear());
+await p.goto(`${base}/`); await p.waitForSelector('#email'); await audit(p, 'connexion'); await largeur(p, 'connexion');
+await p.fill('#email', 'camille.durand@exemple.fr'); await p.fill('#mdp', 'mauvais'); await p.click('button[type=submit]');
+await p.waitForSelector('[data-erreurs]:not([hidden])');
+console.log('identifiants invalides:', (await p.textContent('[data-erreurs]')).trim());
+await p.goto(`${base}/?token=expire`); await p.waitForSelector('#modale-titre:has-text("expiré")');
+await p.goto(`${base}/?token=bloque`); await p.waitForSelector('#modale-titre:has-text("bloqué")');
+console.log('liens expiré et bloqué : OK ; erreurs console:', p.errs);
+await b.close();

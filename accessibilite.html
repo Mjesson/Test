@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Déclaration d’accessibilité – Portail EGA</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/src/css/main.css">
+</head>
+<body class="flex min-h-screen flex-col">
+  <a class="lien-evitement" href="#contenu">Aller au contenu</a>
+  <!--@include header-public.html -->
+
+  <main id="contenu" class="mx-auto w-full max-w-3xl flex-1 px-4 py-8" tabindex="-1">
+    <h1>Déclaration d’accessibilité</h1>
+    <p class="mt-3 rounded-sm border border-bordure bg-surface p-3 text-sm">Modèle de démonstration : ce texte doit être complété et validé par les équipes juridique et conformité avant toute mise en production.</p>
+    <section class="mt-8">
+      <h2>État de conformité</h2>
+      <p class="mt-2">Le portail EGA est <strong>non conforme</strong> au référentiel général d’amélioration de l’accessibilité (RGAA 4.1) : l’audit de conformité complet n’a pas encore été réalisé. Cet état sera mis à jour à l’issue de l’audit.</p>
+    </section>
+    <section class="mt-8">
+      <h2>Ce qui a été vérifié</h2>
+      <ul class="mt-2 list-disc pl-6">
+        <li>Contrôles automatisés (axe-core, règles WCAG 2.2 A et AA) sur chaque écran : aucune violation détectée à la date de rédaction.</li>
+        <li>Navigation au clavier, ordre de tabulation et gestion du focus dans les fenêtres modales.</li>
+        <li>Affichage jusqu’à 320 px de large (reflow) sans défilement horizontal de la page.</li>
+        <li>Contrastes de couleurs : 4,5:1 minimum pour le texte, 3:1 pour les composants.</li>
+        <li>Statuts jamais portés par la couleur seule ; erreurs de formulaire annoncées et reliées aux champs.</li>
+      </ul>
+    </section>
+    <section class="mt-8">
+      <h2>Ce qui reste à faire</h2>
+      <ul class="mt-2 list-disc pl-6">
+        <li>Audit RGAA complet par un auditeur (critères non vérifiables automatiquement).</li>
+        <li>Tests avec lecteurs d’écran (NVDA, VoiceOver) et technologies d’assistance.</li>
+        <li>Mode sombre (non fourni dans cette version).</li>
+      </ul>
+    </section>
+    <section class="mt-8">
+      <h2>Contact et voies de recours</h2>
+      <p class="mt-2">Pour signaler un défaut d’accessibilité ou demander un contenu sous une forme accessible : <strong>[adresse de contact à compléter]</strong>.</p>      <p class="mt-2">Si la réponse n’est pas satisfaisante, vous pouvez saisir le Défenseur des droits : <a class="underline" href="https://formulaire.defenseurdesdroits.fr">formulaire en ligne</a>, ou par courrier gratuit sans affranchissement : Défenseur des droits, Libre réponse 71120, 75342 Paris CEDEX 07.</p>
+    </section>
+
+    <p class="mt-8"><a class="underline" href="/">Retour à l’accueil</a></p>
+  </main>
+
+  <!--@include footer.html -->
+</body>
+</html>
