@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Suivi du dossier – Portail EGA</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/src/css/main.css">
+  <script type="module" src="/src/js/pages/portefeuille-dossier.js"></script>
+</head>
+<body class="flex min-h-screen flex-col">
+  <a class="lien-evitement" href="#contenu">Aller au contenu</a>
+  <!--@include header.html current=portefeuille -->
+
+  <main id="contenu" class="mx-auto w-full max-w-6xl flex-1 px-4 py-8" tabindex="-1">
+    <p><a class="underline" href="/portefeuille.html">Retour au portefeuille</a></p>
+    <div id="etat" role="status" class="mt-6"><p>Chargement du dossier…</p></div>
+    <div id="erreur" hidden class="alerte-erreur mt-6" tabindex="-1"><p></p></div>
+
+    <div id="vue" hidden>
+      <h1 class="mt-3">Dossier <span id="id"></span> – <span id="prospect"></span></h1>
+      <p id="bloque" hidden class="mt-3 inline-flex items-center gap-2 rounded-sm border border-erreur bg-erreur-fond px-3 py-1 font-semibold text-erreur"></p>
+
+      <section aria-labelledby="t-avancement" class="carte mt-6">
+        <h2 id="t-avancement" class="sr-only">Avancement du dossier</h2>
+        <div class="flex flex-wrap items-end justify-between gap-x-8 gap-y-3">
+          <p><span class="block text-sm text-discret">1er paiement estimé</span><strong id="eta" class="text-lg"></strong></p>
+          <div class="min-w-48 flex-1 sm:max-w-sm">
+            <label for="completude" class="text-sm text-discret">Dossier complet à <strong id="completude-txt" class="text-texte"></strong></label>
+            <progress id="completude" class="mt-1 block h-3 w-full" max="100" value="0"></progress>
+          </div>
+        </div>
+        <ol id="frise" aria-label="Étapes du dossier"></ol>
+        <p class="mt-4 text-sm text-discret">Interlocuteur commercial : <span id="ic"></span></p>
+      </section>
+
+      <section aria-labelledby="t-docs" class="carte mt-6">
+        <h2 id="t-docs">Documents attendus</h2>
+        <p class="mt-1 text-sm text-discret">Vue de suivi : seuls les statuts de réception sont affichés.</p>
+        <table class="mt-3 w-full text-left">
+          <caption class="sr-only">Documents attendus et leur statut</caption>
+          <thead><tr class="border-b border-bordure">
+            <th scope="col" class="py-2 pr-3 font-semibold">Document</th>
+            <th scope="col" class="py-2 pl-3 font-semibold">Statut</th>
+          </tr></thead>
+          <tbody id="documents"></tbody>
+        </table>
+      </section>
+    </div>
+  </main>
+
+  <!--@include footer.html -->
+</body>
+</html>
