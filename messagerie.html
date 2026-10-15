@@ -7,15 +7,65 @@
   <title>Messagerie – Portail EGA</title>
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="/src/css/main.css">
-  <script type="module" src="/src/js/pages/simple.js"></script>
+  <script type="module" src="/src/js/pages/messagerie.js"></script>
 </head>
 <body class="flex min-h-screen flex-col">
   <a class="lien-evitement" href="#contenu">Aller au contenu</a>
   <!--@include header.html current=messagerie -->
+
   <main id="contenu" class="mx-auto w-full max-w-6xl flex-1 px-4 py-8" tabindex="-1">
+    <p id="annonces" role="status" class="sr-only"></p>
     <h1>Messagerie</h1>
-    <p class="mt-3 text-discret">Cette page sera construite à une étape suivante.</p>
+    <div id="etat" role="status" class="mt-6"><p>Chargement des conversations…</p></div>
+    <div id="erreur" hidden class="alerte-erreur mt-6" tabindex="-1">
+      <p></p>
+      <button class="btn btn-secondaire mt-3" type="button" id="reessayer">Réessayer</button>
+    </div>
+
+    <div id="vue" hidden class="mt-6 grid grid-cols-[minmax(0,1fr)] gap-6 lg:grid-cols-[18rem_minmax(0,1fr)]">
+      <section aria-labelledby="t-fils" class="carte min-w-0 self-start">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <h2 id="t-fils" class="text-lg">Conversations</h2>
+          <button id="btn-nouveau" type="button" class="btn btn-secondaire" aria-expanded="false" aria-controls="form-nouveau">Nouvelle conversation</button>
+        </div>
+        <form id="form-nouveau" hidden novalidate class="mt-4 border-t border-trait pt-4">
+          <div id="nouveau-erreurs" hidden class="alerte-erreur mb-3" role="alert" tabindex="-1"></div>
+          <label for="nouveau-sujet" class="font-semibold">Sujet</label>
+          <input id="nouveau-sujet" class="champ" type="text" maxlength="120" aria-describedby="erreur-nouveau-sujet">
+          <p id="erreur-nouveau-sujet" class="msg-erreur" hidden></p>
+          <label for="nouveau-texte" class="mt-3 block font-semibold">Message</label>
+          <textarea id="nouveau-texte" class="champ" rows="4" aria-describedby="erreur-nouveau-texte"></textarea>
+          <p id="erreur-nouveau-texte" class="msg-erreur" hidden></p>
+          <div class="mt-3 flex flex-wrap gap-3">
+            <button type="submit" class="btn btn-primaire">Créer la conversation</button>
+            <button type="button" id="nouveau-annuler" class="btn btn-secondaire">Annuler</button>
+          </div>
+        </form>
+        <ul id="fils" class="mt-4 divide-y divide-trait border-t border-trait" aria-label="Liste des conversations"></ul>
+      </section>
+
+      <section aria-labelledby="t-fil" class="carte min-w-0">
+        <h2 id="t-fil" tabindex="-1" class="text-lg">Sélectionnez une conversation</h2>
+        <div id="fil-corps" hidden>
+          <ol id="messages" class="mt-4 space-y-4" aria-label="Messages de la conversation"></ol>
+          <form id="form-message" novalidate class="mt-6 border-t border-trait pt-4">
+            <div id="msg-erreurs" hidden class="alerte-erreur mb-3" role="alert" tabindex="-1"></div>
+            <label for="texte" class="font-semibold">Votre message</label>
+            <textarea id="texte" class="champ" rows="4" aria-describedby="erreur-texte"></textarea>
+            <p id="erreur-texte" class="msg-erreur" hidden></p>
+            <div class="mt-3">
+              <label for="piece-jointe" class="font-semibold">Joindre un document <span class="font-normal text-discret">(facultatif)</span></label>
+              <p id="aide-pj" class="text-sm text-discret">PDF ou JPG, 20 Mo maximum. Le document est rattaché à votre dossier et envoyé immédiatement.</p>
+              <input id="piece-jointe" type="file" accept=".pdf,.jpg,.jpeg,application/pdf,image/jpeg" aria-describedby="aide-pj"
+                class="mt-2 block w-full text-sm file:mr-3 file:min-h-11 file:cursor-pointer file:rounded-sm file:border-2 file:border-marque file:bg-surface file:px-4 file:font-semibold file:text-marque">
+            </div>
+            <div class="mt-4"><button type="submit" class="btn btn-primaire">Envoyer</button></div>
+          </form>
+        </div>
+      </section>
+    </div>
   </main>
+
   <!--@include footer.html -->
 </body>
 </html>
