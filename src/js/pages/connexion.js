@@ -13,7 +13,7 @@ modale.addEventListener('cancel', (e) => e.preventDefault());
 function afficher(idGabarit, titreEtape) {
   corps.replaceChildren(document.getElementById(idGabarit).content.cloneNode(true));
   titre.textContent = titreEtape;
-  document.title = `${titreEtape} – Portail Axiora`;
+  document.title = `${titreEtape} – Portail EGA`;
   titre.focus();
   const afficherMdp = corps.querySelector('[data-afficher]');
   afficherMdp?.addEventListener('change', () => {

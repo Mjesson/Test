@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="light dark">
-  <title>Connexion – Portail Axiora</title>
+  <meta name="color-scheme" content="light">
+  <title>Connexion – Portail EGA</title>
   <meta name="description" content="Accédez à votre espace de suivi de dossier.">
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="/src/css/main.css">
@@ -13,11 +13,10 @@
 <body class="flex min-h-screen flex-col">
   <a class="lien-evitement" href="#contenu">Aller au contenu</a>
 
-  <header class="border-b-2 border-bordure bg-surface">
+  <header class="border-b border-trait bg-surface">
     <div class="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3">
-      <a href="/" class="flex items-center gap-2 font-bold text-marque" aria-label="Axiora – accueil">
-        <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="8" fill="currentColor"/><path d="M16 7l7 18h-3.4l-1.3-3.6h-4.6L12.4 25H9l7-18zm0 6.2l-1.5 4.2h3L16 13.2z" fill="var(--c-marque-texte)"/></svg>
-        <span class="text-xl">Axiora</span>
+      <a href="/" class="flex items-center gap-3 font-semibold text-texte" aria-label="EGA – accueil">
+        <span class="flex size-9 items-center justify-center rounded-sm bg-marque text-sm font-bold tracking-wider text-marque-texte" aria-hidden="true">EGA</span>
       </a>
     </div>
   </header>
@@ -28,7 +27,7 @@
     <noscript><p class="alerte-erreur mt-4">JavaScript est nécessaire pour vous connecter à cet espace.</p></noscript>
   </main>
 
-  <footer class="border-t-2 border-bordure bg-surface">
+  <footer class="border-t border-trait bg-surface">
     <nav aria-label="Informations légales" class="mx-auto flex max-w-6xl flex-wrap gap-x-6 gap-y-1 px-4 py-4 text-sm">
       <a class="underline" href="#">Accessibilité : non conforme</a>
       <a class="underline" href="#">Mentions légales</a>
@@ -36,9 +35,9 @@
     </nav>
   </footer>
 
-  <dialog id="modale" aria-labelledby="modale-titre" class="m-auto w-[min(32rem,calc(100%-2rem))] rounded-lg border-2 border-bordure bg-surface p-0 text-texte">
+  <dialog id="modale" aria-labelledby="modale-titre" class="m-auto w-[min(32rem,calc(100%-2rem))] rounded-sm border border-bordure shadow-lg bg-surface p-0 text-texte">
     <div class="p-6">
-      <p class="font-semibold text-marque">Axiora</p>
+      <p class="text-sm font-semibold uppercase tracking-wider text-discret">EGA</p>
       <h2 id="modale-titre" tabindex="-1" class="mt-1">Chargement…</h2>
       <p id="modale-statut" role="status" class="sr-only"></p>
       <div id="modale-corps" class="mt-4"></div>
