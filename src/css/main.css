@@ -37,6 +37,7 @@
   html { font-size: 100%; }
   body { @apply bg-fond text-texte font-sans leading-relaxed; }
   :focus-visible { outline: 3px solid var(--c-focus); outline-offset: 2px; box-shadow: 0 0 0 2px #fff; }
+  progress { accent-color: var(--c-marque); }
   [tabindex="-1"]:focus { outline: none; box-shadow: none; }
   h1 { @apply text-2xl font-semibold tracking-tight; }
   h2 { @apply text-xl font-semibold; }
@@ -48,13 +49,18 @@
   }
   .btn-primaire { @apply bg-marque text-marque-texte hover:bg-marque-fort hover:border-marque-fort; }
   .btn-secondaire { @apply bg-surface text-marque hover:bg-fond; }
-  .btn:disabled { @apply cursor-not-allowed opacity-60; }
+  .btn:disabled, .btn[aria-disabled='true'] { @apply cursor-not-allowed opacity-60; }
   .champ {
     @apply mt-1 block min-h-11 w-full rounded-sm border-2 border-bordure bg-surface px-3 py-2 text-texte;
   }
   .champ[aria-invalid='true'] { @apply border-erreur; }
   .msg-erreur { @apply mt-1 flex gap-1 font-semibold text-erreur; }
   .alerte-erreur { @apply rounded-sm border-2 border-erreur bg-erreur-fond p-3 text-erreur; }
+  .nav-lien {
+    @apply block border-b-4 border-transparent px-3 py-3 text-discret hover:text-texte;
+  }
+  .nav-lien[aria-current='page'] { @apply border-marque font-semibold text-texte; }
+  .carte { @apply rounded-sm border border-trait bg-surface p-5; }
   .lien-evitement {
     @apply absolute left-2 top-2 z-50 -translate-y-20 rounded-sm bg-marque px-4 py-2 text-marque-texte focus:translate-y-0;
   }

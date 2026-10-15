@@ -40,3 +40,26 @@ export const api = {
   get: (c) => appel('GET', c),
   post: (c, corps) => appel('POST', c, corps ?? {}),
 };
+
+// Envoi de fichier avec progression (fetch n'expose pas la progression d'envoi).
+export function envoyerFichier(chemin, fichier, { documentId, onProgress } = {}) {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', BASE + chemin);
+    xhr.setRequestHeader('Accept', 'application/json');
+    xhr.setRequestHeader('Content-Type', fichier.type || 'application/octet-stream');
+    xhr.setRequestHeader('X-Nom-Fichier', encodeURIComponent(fichier.name));
+    if (documentId) xhr.setRequestHeader('X-Document-Id', documentId);
+    const jeton = session.get();
+    if (jeton) xhr.setRequestHeader('Authorization', `Bearer ${jeton}`);
+    xhr.upload.onprogress = (e) => e.lengthComputable && onProgress?.(Math.round((100 * e.loaded) / e.total));
+    xhr.onerror = () => reject(new ApiError(0, { message: 'Le service est injoignable. Réessayez.' }));
+    xhr.onload = () => {
+      let data = {};
+      try { data = JSON.parse(xhr.responseText); } catch { /* corps vide */ }
+      if (xhr.status >= 200 && xhr.status < 300) resolve(data);
+      else reject(new ApiError(xhr.status, data));
+    };
+    xhr.send(fichier);
+  });
+}

@@ -7,15 +7,120 @@
   <title>Mon dossier – Portail EGA</title>
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="/src/css/main.css">
-  <script type="module">
-    import { api, session } from '/src/js/api.js';
-    try { await api.get('/moi'); } catch { session.clear(); location.replace('/'); }
-  </script>
+  <script type="module" src="/src/js/pages/dossier.js"></script>
 </head>
-<body>
-  <main class="mx-auto max-w-6xl px-4 py-10">
-    <h1>Mon dossier</h1>
-    <p class="mt-3 text-discret">Page à venir (étape suivante).</p>
+<body class="flex min-h-screen flex-col">
+  <a class="lien-evitement" href="#contenu">Aller au contenu</a>
+  <!--@include header.html current=dossier -->
+
+  <main id="contenu" class="mx-auto w-full max-w-6xl flex-1 px-4 py-8" tabindex="-1">
+    <p id="annonces" role="status" class="sr-only"></p>
+    <div id="etat-chargement" role="status"><p>Chargement de votre dossier…</p></div>
+    <div id="etat-erreur" hidden class="alerte-erreur" tabindex="-1">
+      <p>Impossible de charger votre dossier.</p>
+      <button class="btn btn-secondaire mt-3" type="button" id="reessayer">Réessayer</button>
+    </div>
+    <noscript><p class="alerte-erreur">JavaScript est nécessaire pour afficher votre dossier.</p></noscript>
+
+    <div id="vue" hidden>
+      <div class="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
+        <h1>Dossier n° <span id="numero"></span></h1>
+        <p class="text-discret" id="societe"></p>
+      </div>
+
+      <div id="bandeau-envoi" hidden class="mt-4 rounded-sm border border-succes bg-surface p-4 text-succes" tabindex="-1"></div>
+
+      <section aria-labelledby="t-avancement" class="carte mt-6">
+        <h2 id="t-avancement" class="sr-only">Avancement du dossier</h2>
+        <div class="flex flex-wrap items-end justify-between gap-x-8 gap-y-3">
+          <p><span class="block text-sm text-discret">1re facture payée</span><strong id="eta" class="text-lg"></strong></p>
+          <div class="min-w-48 flex-1 sm:max-w-sm">
+            <label for="completude" class="text-sm text-discret">Dossier complet à <strong id="completude-txt" class="text-texte"></strong></label>
+            <progress id="completude" class="mt-1 block h-3 w-full" max="100" value="0"></progress>
+          </div>
+        </div>
+        <ol id="frise" class="mt-6 grid gap-4 sm:grid-cols-4" aria-label="Étapes du dossier"></ol>
+      </section>
+
+      <section aria-labelledby="t-infos" class="carte mt-6">
+        <h2 id="t-infos">Informations générales</h2>
+        <dl id="infos" class="mt-3 grid gap-x-8 gap-y-3 sm:grid-cols-2 lg:grid-cols-3"></dl>
+        <p class="mt-4"><a class="underline" id="lien-ic" href="/messagerie.html">Écrire à mon interlocuteur commercial</a></p>
+      </section>
+
+      <div class="mt-6 grid gap-6 lg:grid-cols-3">
+        <section aria-labelledby="t-docs" class="carte lg:col-span-2">
+          <h2 id="t-docs">Documents attendus</h2>
+          <div class="mt-3">
+            <table class="w-full text-left">
+              <caption class="sr-only">Documents attendus, leur statut et l’action possible</caption>
+              <thead>
+                <tr class="border-b border-bordure">
+                  <th scope="col" class="py-2 pr-3 font-semibold">Document<span class="sm:hidden"> et statut</span></th>
+                  <th scope="col" class="hidden px-3 py-2 font-semibold sm:table-cell">Statut</th>
+                  <th scope="col" class="py-2 pl-3 font-semibold">Action</th>
+                </tr>
+              </thead>
+              <tbody id="documents"></tbody>
+            </table>
+          </div>
+          <div id="non-rattachees" hidden class="mt-6">
+            <h3 class="font-semibold">Pièces reçues non rattachées</h3>
+            <p class="text-sm text-discret">Votre interlocuteur commercial a été alerté et les rattachera.</p>
+            <ul id="liste-non-rattachees" class="mt-2 list-disc pl-6"></ul>
+          </div>
+        </section>
+
+        <section aria-labelledby="t-depot" class="carte">
+          <h2 id="t-depot">Déposer des documents</h2>
+          <div id="zone-depot" class="mt-3 rounded-sm border-2 border-dashed border-bordure p-4">
+            <p id="cible" hidden class="mb-3 rounded-sm bg-fond p-2 text-sm">
+              Dépôt pour : <strong id="cible-nom"></strong>
+              <button type="button" class="ml-2 underline" id="cible-annuler">Annuler</button>
+            </p>
+            <label for="fichiers" class="font-semibold">Choisir un ou plusieurs fichiers</label>
+            <p id="aide-fichiers" class="text-sm text-discret">Glissez-déposez vos fichiers dans ce cadre ou parcourez vos dossiers. Formats acceptés : PDF, JPG. Taille maximale : 20 Mo par fichier.</p>
+            <input id="fichiers" type="file" multiple accept=".pdf,.jpg,.jpeg,application/pdf,image/jpeg" aria-describedby="aide-fichiers"
+              class="mt-3 block w-full text-sm file:mr-3 file:min-h-11 file:cursor-pointer file:rounded-sm file:border-2 file:border-marque file:bg-surface file:px-4 file:font-semibold file:text-marque">
+          </div>
+          <div id="depot-erreurs" hidden class="alerte-erreur mt-3" role="alert"></div>
+          <ul id="envois" class="mt-4 space-y-3" aria-label="Fichiers envoyés"></ul>
+          <p id="depot-ferme" hidden class="mt-3 text-discret">Votre dossier a été envoyé : le dépôt est fermé. Contactez votre interlocuteur commercial pour toute modification.</p>
+        </section>
+      </div>
+
+      <section aria-labelledby="t-valid" class="carte mt-6">
+        <h2 id="t-valid">Validation du dossier</h2>
+        <p id="aide-validation" class="mt-2 text-discret"></p>
+        <div class="mt-4 flex flex-wrap gap-3">
+          <button id="btn-valider" class="btn btn-primaire" type="button" aria-describedby="aide-validation">Valider et envoyer mon dossier</button>
+          <button id="btn-quitter" class="btn btn-secondaire" type="button">Enregistrer et quitter</button>
+        </div>
+      </section>
+    </div>
   </main>
+
+  <dialog id="dlg-confirmation" aria-labelledby="dlg-conf-titre" class="m-auto w-[min(30rem,calc(100%-2rem))] rounded-sm border border-bordure bg-surface p-0 text-texte shadow-lg">
+    <form method="dialog" class="p-6" id="form-confirmation">
+      <h2 id="dlg-conf-titre">Confirmer l’envoi du dossier ?</h2>
+      <p class="mt-3">Vos pièces seront transmises pour contrôle. Vous ne pourrez plus en déposer ou en remplacer sans l’accord de votre interlocuteur commercial.</p>
+      <p id="dlg-conf-erreur" hidden class="alerte-erreur mt-3" role="alert"></p>
+      <div class="mt-6 flex flex-wrap justify-end gap-3">
+        <button class="btn btn-secondaire" value="annuler" autofocus>Annuler</button>
+        <button class="btn btn-primaire" value="confirmer" id="dlg-conf-ok">Confirmer l’envoi</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="dlg-document" aria-labelledby="dlg-doc-titre" class="m-auto w-[min(30rem,calc(100%-2rem))] rounded-sm border border-bordure bg-surface p-0 text-texte shadow-lg">
+    <form method="dialog" class="p-6">
+      <h2 id="dlg-doc-titre"></h2>
+      <dl id="dlg-doc-infos" class="mt-3 space-y-2"></dl>
+      <p class="mt-3 text-sm text-discret">L’aperçu du contenu sera disponible avec l’API de stockage.</p>
+      <div class="mt-6 flex justify-end"><button class="btn btn-primaire" autofocus>Fermer</button></div>
+    </form>
+  </dialog>
+
+  <!--@include footer.html -->
 </body>
 </html>

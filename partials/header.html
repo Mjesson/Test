@@ -1,0 +1,16 @@
+<header class="border-b border-trait bg-surface">
+  <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-6 gap-y-2 px-4 py-3">
+    <!--@include logo.html -->
+    <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
+      <p class="text-sm text-discret" data-utilisateur></p>
+      <button class="btn btn-secondaire" type="button" data-deconnexion>Se déconnecter</button>
+    </div>
+  </div>
+  <nav aria-label="Navigation principale" class="border-t border-trait">
+    <ul class="mx-auto flex max-w-6xl flex-wrap px-2">
+      <li><a class="nav-lien" href="/dossier.html" {{cur:dossier}}>Mon dossier</a></li>
+      <li><a class="nav-lien" href="/formulaires.html" {{cur:formulaires}}>Formulaires</a></li>
+      <li><a class="nav-lien" href="/messagerie.html" {{cur:messagerie}}>Messagerie</a></li>
+    </ul>
+  </nav>
+</header>
